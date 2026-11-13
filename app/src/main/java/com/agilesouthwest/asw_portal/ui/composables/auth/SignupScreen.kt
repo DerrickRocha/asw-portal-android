@@ -28,8 +28,8 @@ import com.agilesouthwest.asw_portal.ui.theme.AswPortalTheme
 import com.agilesouthwest.asw_portal.ui.theme.Typography
 
 @Composable
-fun SignupScreen(modifier: Modifier) {
-    SignupScreenContent(modifier)
+fun SignupScreen() {
+    SignupScreenContent()
 }
 
 @Composable

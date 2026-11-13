@@ -57,7 +57,7 @@ fun AuthenticationNavDisplay(modifier: Modifier = Modifier) {
         onBack = { if (backstack.size > 1) backstack.removeLastOrNull() },
         entryProvider = entryProvider {
             entry(AuthKey.SignupKey) {
-                SignupScreen(modifier = Modifier)
+                SignupScreen()
             }
             entry(AuthKey.LoginKey) {
                 LoginScreen()
