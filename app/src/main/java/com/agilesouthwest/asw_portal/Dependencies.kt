@@ -1,0 +1,6 @@
+package com.agilesouthwest.asw_portal
+
+import com.agilesouthwest.asw_portal.data.AuthenticationRepository
+import com.agilesouthwest.asw_portal.data.AuthenticationRepositoryImplementation
+
+val authenticationRepository: AuthenticationRepository = AuthenticationRepositoryImplementation()

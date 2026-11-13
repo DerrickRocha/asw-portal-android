@@ -1,4 +1,4 @@
-package com.agilesouthwest.asw_portal.ui.auth
+package com.agilesouthwest.asw_portal.ui.composables.auth
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

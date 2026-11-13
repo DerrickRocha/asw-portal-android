@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.agilesouthwest.asw_portal.ui.AswPortalApp
+import com.agilesouthwest.asw_portal.ui.composables.AswPortalApp
 import com.agilesouthwest.asw_portal.ui.theme.AswPortalTheme
 
 class MainActivity : ComponentActivity() {
