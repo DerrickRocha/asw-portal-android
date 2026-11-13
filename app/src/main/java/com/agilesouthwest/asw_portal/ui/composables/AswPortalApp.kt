@@ -27,7 +27,7 @@ fun AswPortalApp(
     val state: AswPortalState by viewModel.state.collectAsState()
 
     when(state) {
-        AswPortalState.Authenticate -> AuthenticationNavDisplay(modifier, authBackstack)
+        AswPortalState.Authenticate -> AuthenticationNavDisplay(modifier)
         AswPortalState.Home -> HomeNavDisplay(modifier)
         AswPortalState.Splash -> SplashScreen(modifier)
     }
