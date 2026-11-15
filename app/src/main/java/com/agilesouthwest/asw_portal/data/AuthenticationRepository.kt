@@ -1,6 +1,5 @@
 package com.agilesouthwest.asw_portal.data
 
-import android.util.Log
 import com.agilesouthwest.asw_portal.ui.viewmodels.LoginError
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
