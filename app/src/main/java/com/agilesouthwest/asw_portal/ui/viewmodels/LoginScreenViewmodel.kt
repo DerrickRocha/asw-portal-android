@@ -1,12 +1,10 @@
 package com.agilesouthwest.asw_portal.ui.viewmodels
 
-import android.accounts.AuthenticatorException
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.agilesouthwest.asw_portal.authenticationRepository
-import com.agilesouthwest.asw_portal.data.AuthException
 import com.agilesouthwest.asw_portal.data.AuthenticationRepository
 import com.agilesouthwest.asw_portal.data.LoginResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -78,12 +76,6 @@ class LoginScreenViewmodel(
 enum class EmailError { Empty, Invalid }
 enum class PasswordError { Empty }
 enum class LoginError { InvalidCredentials, Network, Unknown }
-
-private fun Throwable.toLoginError() = when (this) {
-    is AuthException.Network -> LoginError.Network
-    is AuthException.InvalidCredentials -> LoginError.InvalidCredentials
-    else -> LoginError.Unknown
-}
 
 data class LoginScreenState(
     val isLoading: Boolean = false,
