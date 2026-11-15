@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.androidx.viewmodel)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.squareup.okhttp)
+    implementation(libs.ktx.serialization)
 
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
