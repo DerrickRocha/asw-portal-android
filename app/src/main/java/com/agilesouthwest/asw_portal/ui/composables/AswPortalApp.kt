@@ -60,7 +60,14 @@ fun AuthenticationNavDisplay(modifier: Modifier = Modifier) {
                 SignupScreen()
             }
             entry(AuthKey.LoginKey) {
-                LoginScreen()
+                LoginScreen(
+                    onSignupClicked = {
+                        backstack.add(AuthKey.SignupKey)
+                    },
+                    onForgotPasswordClicked = {
+                        backstack.add(AuthKey.ResetPasswordKey)
+                    },
+                )
             }
             entry(AuthKey.ResetPasswordKey) {
                 Text(text = "Reset password screen")
