@@ -2,7 +2,7 @@ package com.agilesouthwest.asw_portal.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.agilesouthwest.asw_portal.authenticationRepository
+import com.agilesouthwest.asw_portal.Dependencies
 import com.agilesouthwest.asw_portal.data.AuthenticationRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
-class AswPortalAppViewModel(private val repository: AuthenticationRepository = authenticationRepository) :
+class AswPortalAppViewModel(
+    private val repository: AuthenticationRepository = Dependencies.authenticationRepository
+) :
     ViewModel() {
     private val _state = MutableStateFlow<AswPortalState>(AswPortalState.Splash)
     val state: StateFlow<AswPortalState> = _state.asStateFlow()

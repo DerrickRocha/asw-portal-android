@@ -4,7 +4,7 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.agilesouthwest.asw_portal.authenticationRepository
+import com.agilesouthwest.asw_portal.Dependencies
 import com.agilesouthwest.asw_portal.data.AuthenticationRepository
 import com.agilesouthwest.asw_portal.data.LoginResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginScreenViewmodel(
-    private val repository: AuthenticationRepository = authenticationRepository
+    private val repository: AuthenticationRepository = Dependencies.authenticationRepository
 ) : ViewModel() {
 
     val emailState = TextFieldState()

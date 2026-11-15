@@ -5,6 +5,8 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 interface AuthenticationRepository {
     suspend fun isLoggedIn(): Boolean
@@ -12,6 +14,7 @@ interface AuthenticationRepository {
 }
 
 class AuthenticationRepositoryImplementation(
+    private val client: OkHttpClient,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) :
     AuthenticationRepository {
@@ -22,6 +25,11 @@ class AuthenticationRepositoryImplementation(
     override suspend fun login(username: String, password: String): LoginResult =
         withContext(dispatcher) {
             try {
+                val request = Request.Builder()
+                    .url("https://radio.agilesouthwest.com/radio/stations/search?tag=r&b")
+                    .build()
+                val response = client.newCall(request).execute()
+                val body = response.body.string()
                 LoginResult.Success
             } catch (exception: CancellationException) {
                 throw exception
