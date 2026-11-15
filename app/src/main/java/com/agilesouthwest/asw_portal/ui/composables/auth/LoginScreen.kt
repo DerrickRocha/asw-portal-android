@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.KeyboardActionHandler
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SecureTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -26,13 +28,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.agilesouthwest.asw_portal.R
 import com.agilesouthwest.asw_portal.ui.theme.AswPortalTheme
+import com.agilesouthwest.asw_portal.ui.viewmodels.EmailError
+import com.agilesouthwest.asw_portal.ui.viewmodels.LoginError
 import com.agilesouthwest.asw_portal.ui.viewmodels.LoginScreenState
 import com.agilesouthwest.asw_portal.ui.viewmodels.LoginScreenViewmodel
+import com.agilesouthwest.asw_portal.ui.viewmodels.PasswordError
 
 @Composable
 fun LoginScreen(
@@ -43,6 +50,8 @@ fun LoginScreen(
     val state by viewmodel.state.collectAsState()
     LoginScreenContent(
         state = state,
+        passwordState = viewmodel.passwordState,
+        emailState = viewmodel.emailState,
         onLoginClicked = viewmodel::onLogin,
         onSignupClicked = onSignupClicked,
         onForgotPasswordClicked = onForgotPasswordClicked,
@@ -52,11 +61,12 @@ fun LoginScreen(
 @Composable
 fun LoginScreenContent(
     state: LoginScreenState = LoginScreenState(),
+    emailState: TextFieldState = rememberTextFieldState(),
+    passwordState: TextFieldState = rememberTextFieldState(),
     onLoginClicked: () -> Unit = {},
     onSignupClicked: () -> Unit = {},
     onForgotPasswordClicked: () -> Unit = {}
 ) {
-
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -75,19 +85,23 @@ fun LoginScreenContent(
         Spacer(modifier = Modifier.height(16.dp))
         TextField(
             modifier = Modifier.focusRequester(focusRequester),
-            state = rememberTextFieldState(),
+            state = emailState,
+            isError = state.emailError != null,
             placeholder = { Text(text = "Email") },
             enabled = !state.isLoading,
             keyboardOptions = KeyboardOptions(
                 showKeyboardOnFocus = true,
                 imeAction = ImeAction.Next
             ),
+            supportingText = state.emailError?.let { { Text(it.message()) } }
         )
         Spacer(modifier = Modifier.height(16.dp))
         SecureTextField(
-            state = rememberTextFieldState(),
+            state = passwordState,
             placeholder = { Text("Password") },
             enabled = !state.isLoading,
+            isError = state.passwordError != null,
+            supportingText = state.passwordError?.let { { Text(it.message()) } },
             keyboardOptions = KeyboardOptions(
                 showKeyboardOnFocus = true,
                 imeAction = ImeAction.Done
@@ -97,6 +111,13 @@ fun LoginScreenContent(
                 keyboardController?.hide()
             }
         )
+        state.formError?.let { error ->
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = error.message(),
+                color = MaterialTheme.colorScheme.error
+            )
+        }
         Spacer(modifier = Modifier.height(22.dp))
         Button(onClick = {
             onLoginClicked()
@@ -126,10 +147,34 @@ fun LoginScreenContent(
     }
 }
 
+@Composable
+private fun EmailError.message(): String = stringResource(
+    when (this) {
+        EmailError.Empty -> R.string.error_email_empty
+        EmailError.Invalid -> R.string.error_email_invalid
+    }
+)
+
+@Composable
+private fun PasswordError.message(): String = stringResource(
+    when (this) {
+        PasswordError.Empty -> R.string.error_password_empty
+    }
+)
+
+@Composable
+private fun LoginError.message(): String = stringResource(
+    when (this) {
+        LoginError.InvalidCredentials -> R.string.login_error_invalid_credentials
+        LoginError.Network -> R.string.login_error_network
+        LoginError.Unknown -> R.string.login_error_unknown
+    }
+)
+
 @Preview(showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
-    AswPortalTheme() {
+    AswPortalTheme {
         LoginScreenContent()
     }
 }
